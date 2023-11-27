@@ -69,6 +69,17 @@ document.getElementById('connect').addEventListener('click', async () => {
                 document.getElementById('resultado').innerText = 'Endereço sorteado: ' + result;
             });
         });
+    async function disconnectWallet() {
+    if (window.ethereum) {
+        try {
+            await window.ethereum.request({ method: 'wallet_requestPermissions', params: [{ eth_accounts: {} }] });
+        } catch (error) {
+            console.error(error);
+        }
+    }
+}
+
+disconnectWallet();
     </script>
 </body>
 </html>
