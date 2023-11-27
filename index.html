@@ -7,11 +7,20 @@
 <body>
 
 <button id="connect">Conectar</button>
+<div id="wallet"></div> <!-- Elemento para exibir o endereço da carteira -->
 <script>
 document.getElementById('connect').addEventListener('click', async () => {
     if (window.ethereum) {
         try {
             await ethereum.enable();
+            const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+            const account = accounts[0];
+            if (account) {
+                const shortAddress = account.slice(0,6) + '...' + account.slice(-4);
+                document.getElementById('wallet').innerText = shortAddress;
+            } else {
+                console.log('Nenhuma conta conectada');
+            }
         } catch (error) {
             console.error("Usuário negou acesso à conta.");
         }
@@ -43,7 +52,7 @@ document.getElementById('connect').addEventListener('click', async () => {
             }
 
             // Aqui você pode iniciar a interação com seu contrato
-            var contractAddress = '0x076a8E680A255Ac6F34D779D369F92Aa56B2b3EC';
+            var contractAddress = 'ENDEREÇOCONTRATO';
             var abi = [	{
 		"inputs": [],
 		"stateMutability": "nonpayable",
@@ -69,17 +78,6 @@ document.getElementById('connect').addEventListener('click', async () => {
                 document.getElementById('resultado').innerText = 'Endereço sorteado: ' + result;
             });
         });
-    async function disconnectWallet() {
-    if (window.ethereum) {
-        try {
-            await window.ethereum.request({ method: 'wallet_requestPermissions', params: [{ eth_accounts: {} }] });
-        } catch (error) {
-            console.error(error);
-        }
-    }
-}
-
-disconnectWallet();
     </script>
 </body>
 </html>
