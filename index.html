@@ -2,9 +2,76 @@
 <html>
 <head>
     <title>Interagir com o Contrato Inteligente</title>
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
 </head>
 <body>
 
-ok
+<button id="connect">Conectar</button>
+<script>
+document.getElementById('connect').addEventListener('click', async () => {
+    if (window.ethereum) {
+        try {
+            await ethereum.enable();
+        } catch (error) {
+            console.error("Usuário negou acesso à conta.");
+        }
+    } else {
+        console.log('Instale o MetaMask!');
+    }
+});
+</script>
+
+    <button id="sortear">Sortear</button>
+    <div id="resultado"></div>
+
+    <script>
+        window.addEventListener('load', async () => {
+            // Verifica se o Web3 foi injetado pelo navegador (Mist/MetaMask)
+            if (window.ethereum) {
+                window.web3 = new Web3(ethereum);
+                try {
+                    // Solicita acesso à conta do usuário
+                    await ethereum.enable();
+                    var accounts = await web3.eth.getAccounts();
+                    console.log('Conta: ', accounts[0]);
+                } catch (error) {
+                    console.error("Usuário negou acesso à conta.");
+                }
+            }
+            // Caso o usuário não tenha MetaMask instalado
+            else {
+                console.log('Instale o MetaMask!');
+            }
+
+            // Aqui você pode iniciar a interação com seu contrato
+            var contractAddress = '0xdafc018c236a6464c5AF03D3DBAcc8200587F928';
+            var abi = [[
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [],
+		"name": "sortear",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]]; // Substitua SEU_ABI pelo ABI do seu contrato
+            var contract = new web3.eth.Contract(abi, contractAddress);
+
+            document.getElementById('sortear').addEventListener('click', async () => {
+                var result = await contract.methods.sortear().call({from: accounts[0]});
+                document.getElementById('resultado').innerText = 'Endereço sorteado: ' + result;
+            });
+        });
+    </script>
 </body>
 </html>
