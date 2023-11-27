@@ -26,18 +26,17 @@ document.getElementById('connect').addEventListener('click', async () => {
 
     <script>
         window.addEventListener('load', async () => {
-            // Verifica se o Web3 foi injetado pelo navegador (Mist/MetaMask)
-            if (window.ethereum) {
-                window.web3 = new Web3(ethereum);
-                try {
-                    // Solicita acesso à conta do usuário
-                    await ethereum.enable();
-                    var accounts = await web3.eth.getAccounts();
-                    console.log('Conta: ', accounts[0]);
-                } catch (error) {
-                    console.error("Usuário negou acesso à conta.");
-                }
-            }
+	if (window.ethereum) {
+	    window.web3 = new Web3(ethereum);
+	    try {
+	        // Solicita acesso à conta do usuário
+	        await ethereum.request({ method: 'eth_requestAccounts' });
+	        var accounts = await web3.eth.getAccounts();
+	        console.log('Conta: ', accounts[0]);
+	    } catch (error) {
+	        console.error("Usuário negou acesso à conta.");
+	    }
+	}
             // Caso o usuário não tenha MetaMask instalado
             else {
                 console.log('Instale o MetaMask!');
