@@ -44,8 +44,7 @@ document.getElementById('connect').addEventListener('click', async () => {
 
             // Aqui você pode iniciar a interação com seu contrato
             var contractAddress = '0xdafc018c236a6464c5AF03D3DBAcc8200587F928';
-            var abi = [[
-	{
+            var abi = [	{
 		"inputs": [],
 		"stateMutability": "nonpayable",
 		"type": "constructor"
@@ -62,8 +61,7 @@ document.getElementById('connect').addEventListener('click', async () => {
 		],
 		"stateMutability": "view",
 		"type": "function"
-	}
-]]; // Substitua SEU_ABI pelo ABI do seu contrato
+	}]; // Substitua SEU_ABI pelo ABI do seu contrato
             var contract = new web3.eth.Contract(abi, contractAddress);
 
             document.getElementById('sortear').addEventListener('click', async () => {
