@@ -68,7 +68,7 @@ document.getElementById('connect').addEventListener('click', async () => {
             var contract = new web3.eth.Contract(abi, contractAddress);
 
             document.getElementById('sortear').addEventListener('click', async () => {
-                var result = await contract.methods.sortear().call({from: accounts[0]});
+		var result = await contract.methods.sortear().send({from: accounts[0]});
                 document.getElementById('resultado').innerText = 'Endereço sorteado: ' + result;
             });
         });
